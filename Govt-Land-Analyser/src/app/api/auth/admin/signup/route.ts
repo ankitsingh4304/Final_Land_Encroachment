@@ -1,14 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
-import { User } from "@/models/User";
+import { User, type UserRole } from "@/models/User";
 import { hashPassword, signAuthToken } from "@/lib/auth";
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, password, contactNumber, adminSecret } =
-      await req.json();
+    const {
+      name,
+      email,
+      password,
+      contactNumber,
+      adminSecret,
+      adminLevel,
+    } = await req.json();
 
     if (!ADMIN_SECRET) {
       return NextResponse.json(
@@ -24,9 +30,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!name || !email || !password || !contactNumber) {
+    if (!name || !email || !password || !contactNumber || !adminLevel) {
       return NextResponse.json(
         { message: "All fields are required" },
+        { status: 400 }
+      );
+    }
+
+    const allowedLevels: UserRole[] = [
+      "state_admin",
+      "district_admin",
+      "block_admin",
+    ];
+    if (!allowedLevels.includes(adminLevel)) {
+      return NextResponse.json(
+        { message: "Invalid admin level" },
         { status: 400 }
       );
     }
@@ -48,7 +66,7 @@ export async function POST(req: NextRequest) {
       email: email.toLowerCase(),
       passwordHash,
       contactNumber,
-      role: "admin",
+      role: adminLevel,
     });
 
     const token = signAuthToken(user);

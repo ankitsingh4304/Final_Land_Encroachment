@@ -69,11 +69,9 @@ export async function GET() {
     await connectToDatabase();
 
     const filter =
-      user.role === "admin"
-        ? {}
-        : {
-            user: user._id,
-          };
+      user.role === "user"
+        ? { user: user._id }
+        : {}; // any admin level sees all applications
 
     const applications = await Application.find(filter).sort({
       createdAt: -1,

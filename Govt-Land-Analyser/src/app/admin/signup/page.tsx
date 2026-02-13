@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
+type AdminLevel = "state_admin" | "district_admin" | "block_admin";
+
 export default function AdminSignupPage() {
   const router = useRouter();
   const [form, setForm] = useState({
@@ -11,6 +13,7 @@ export default function AdminSignupPage() {
     password: "",
     contactNumber: "",
     adminSecret: "",
+    adminLevel: "district_admin" as AdminLevel,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -52,13 +55,14 @@ export default function AdminSignupPage() {
             .
           </h1>
           <p className="max-w-md text-sm leading-relaxed text-slate-200/80">
-            Invite-only registration for administrators. You need the admin
-            secret from your system administrator to create an account.
+            Invite-only registration for administrators. Choose your access
+            level (state, district or block) and provide the shared admin
+            secret issued by your system owner.
           </p>
           <ul className="space-y-2 text-xs text-slate-200/80">
             <li className="flex items-start gap-2">
               <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400" />
-              <span>Review and approve citizen land applications.</span>
+              <span>State admins can see all districts; district admins see their own districts; block admins focus on a single block.</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400" />
@@ -111,6 +115,29 @@ export default function AdminSignupPage() {
               className="w-full rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2 text-sm text-slate-50 outline-none ring-emerald-400/60 focus:border-emerald-400/70 focus:ring-2"
               placeholder="+91-XXXXXXXXXX"
             />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-slate-200">
+              Admin level
+            </label>
+            <select
+              value={form.adminLevel}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  adminLevel: e.target.value as AdminLevel,
+                })
+              }
+              className="w-full rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2 text-xs text-slate-50 outline-none ring-emerald-400/60 focus:border-emerald-400/70 focus:ring-2"
+            >
+              <option value="state_admin">State-level Admin</option>
+              <option value="district_admin">District-level Admin</option>
+              <option value="block_admin">Block-level Admin</option>
+            </select>
+            <p className="text-[10px] text-slate-400">
+              This controls the scope of areas you manage in the system.
+            </p>
           </div>
 
           <div className="space-y-1">

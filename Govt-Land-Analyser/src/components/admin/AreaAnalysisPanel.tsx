@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   INDUSTRIAL_AREAS,
@@ -12,15 +12,57 @@ interface AreaAnalysisPanelProps {
   isAnalyzing?: boolean;
 }
 
+type AdminRole = "state_admin" | "district_admin" | "block_admin" | "user" | null;
+
+function filterAreasForRole(role: AdminRole) {
+  if (role === "district_admin") {
+    // District admins: Industrial Area 1 & 2 only
+    return INDUSTRIAL_AREAS.filter((a) => a.id === "area-1" || a.id === "area-2");
+  }
+  if (role === "block_admin") {
+    // Block admins: Industrial Area 1 only
+    return INDUSTRIAL_AREAS.filter((a) => a.id === "area-1");
+  }
+  // State admins and others: all areas
+  return INDUSTRIAL_AREAS;
+}
+
 export function AreaAnalysisPanel({
   onAnalyze,
   isAnalyzing = false,
 }: AreaAnalysisPanelProps) {
   const [selectedAreaId, setSelectedAreaId] =
     useState<IndustrialAreaId>("area-1");
+  const [adminRole, setAdminRole] = useState<AdminRole>(null);
+
+  useEffect(() => {
+    const loadRole = async () => {
+      try {
+        const res = await fetch("/api/auth/me");
+        if (!res.ok) return;
+        const data = await res.json();
+        const role = (data.user?.role ?? "user") as AdminRole;
+        setAdminRole(role);
+      } catch (err) {
+        console.error("Failed to load admin role for areas", err);
+      }
+    };
+    loadRole();
+  }, []);
+
+  const visibleAreas = filterAreasForRole(adminRole);
+
+  useEffect(() => {
+    if (!visibleAreas.length) return;
+    const exists = visibleAreas.some((a) => a.id === selectedAreaId);
+    if (!exists) {
+      setSelectedAreaId(visibleAreas[0].id);
+    }
+  }, [adminRole, selectedAreaId, visibleAreas]);
 
   const selectedArea =
-    INDUSTRIAL_AREAS.find((area) => area.id === selectedAreaId) ??
+    visibleAreas.find((area) => area.id === selectedAreaId) ??
+    visibleAreas[0] ??
     INDUSTRIAL_AREAS[0];
 
   const handleAnalyzeClick = () => {
@@ -55,7 +97,7 @@ export function AreaAnalysisPanel({
               setSelectedAreaId(e.target.value as IndustrialAreaId)
             }
           >
-            {INDUSTRIAL_AREAS.map((area) => (
+            {visibleAreas.map((area) => (
               <option key={area.id} value={area.id}>
                 {area.name}
               </option>

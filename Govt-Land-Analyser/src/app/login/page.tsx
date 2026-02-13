@@ -3,12 +3,12 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-type Role = "user" | "admin";
+type UiRole = "user" | "admin";
 
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [role, setRole] = useState<Role>("user");
+  const [role, setRole] = useState<UiRole>("user");
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,13 +28,15 @@ export default function LoginPage() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, role }),
+        body: JSON.stringify(form),
       });
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.message || "Login failed");
       }
-      if (role === "admin") {
+      // Redirect based on actual stored role, not local toggle
+      const userRole = data.user?.role as string | undefined;
+      if (userRole && userRole !== "user") {
         router.push("/admin");
       } else {
         router.push("/user");

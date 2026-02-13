@@ -1,6 +1,10 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-export type UserRole = "user" | "admin";
+export type UserRole =
+  | "user"
+  | "state_admin"
+  | "district_admin"
+  | "block_admin";
 
 export interface IUser extends Document {
   name: string;
@@ -28,7 +32,7 @@ const UserSchema = new Schema<IUser>(
     contactNumber: { type: String, required: true },
     role: {
       type: String,
-      enum: ["user", "admin"],
+      enum: ["user", "state_admin", "district_admin", "block_admin"],
       default: "user",
       required: true,
     },

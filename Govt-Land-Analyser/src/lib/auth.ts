@@ -46,9 +46,24 @@ export async function getCurrentUser(): Promise<IUser | null> {
   }
 }
 
-/** Returns the current user if they are an admin; otherwise null. Use for admin-only API routes. */
+/** Returns the current user if they are any admin; otherwise null. Use for admin-only API routes. */
 export async function requireAdmin(): Promise<IUser | null> {
   const user = await getCurrentUser();
-  return user?.role === "admin" ? user : null;
+  if (!user) return null;
+  if (user.role === "user") return null;
+  return user;
+}
+
+/** Type helper: narrow an admin's level for UI/authorization decisions. */
+export function isStateAdmin(user: IUser | null): boolean {
+  return !!user && user.role === "state_admin";
+}
+
+export function isDistrictAdmin(user: IUser | null): boolean {
+  return !!user && user.role === "district_admin";
+}
+
+export function isBlockAdmin(user: IUser | null): boolean {
+  return !!user && user.role === "block_admin";
 }
 

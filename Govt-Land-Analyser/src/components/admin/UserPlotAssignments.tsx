@@ -11,10 +11,23 @@ interface AdminUserSummary {
   areaId: string | null;
 }
 
+type AdminRole = "state_admin" | "district_admin" | "block_admin" | "user" | null;
+
+function filterAreasForRole(role: AdminRole) {
+  if (role === "district_admin") {
+    return INDUSTRIAL_AREAS.filter((a) => a.id === "area-1" || a.id === "area-2");
+  }
+  if (role === "block_admin") {
+    return INDUSTRIAL_AREAS.filter((a) => a.id === "area-1");
+  }
+  return INDUSTRIAL_AREAS;
+}
+
 export function UserPlotAssignments() {
   const [users, setUsers] = useState<AdminUserSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [savingUserId, setSavingUserId] = useState<string | null>(null);
+  const [adminRole, setAdminRole] = useState<AdminRole>(null);
 
   const loadUsers = async () => {
     try {
@@ -36,6 +49,23 @@ export function UserPlotAssignments() {
   useEffect(() => {
     loadUsers();
   }, []);
+
+  useEffect(() => {
+    const loadRole = async () => {
+      try {
+        const res = await fetch("/api/auth/me");
+        if (!res.ok) return;
+        const data = await res.json();
+        const role = (data.user?.role ?? "user") as AdminRole;
+        setAdminRole(role);
+      } catch (err) {
+        console.error("Failed to load admin role for assignments", err);
+      }
+    };
+    loadRole();
+  }, []);
+
+  const visibleAreas = filterAreasForRole(adminRole);
 
   const handleChangeArea = (userId: string, areaId: string) => {
     setUsers((prev) =>
@@ -148,7 +178,7 @@ export function UserPlotAssignments() {
                     }
                   >
                     <option value="">Select area</option>
-                    {INDUSTRIAL_AREAS.map((area) => (
+                    {visibleAreas.map((area) => (
                       <option key={area.id} value={area.id}>
                         {area.name}
                       </option>

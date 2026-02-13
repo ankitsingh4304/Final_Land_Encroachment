@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import type { IndustrialAreaId } from "@/lib/config/areas";
 import { AreaAnalysisPanel } from "@/components/admin/AreaAnalysisPanel";
 import { ViolationMap } from "@/components/admin/ViolationMap";
-import { UserPlotAssignments } from "@/components/admin/UserPlotAssignments";
 
 interface AnalyzeResult {
   success: boolean;
@@ -120,8 +119,6 @@ export default function AdminDashboard() {
           reportFileId={lastAnalysis.reportFileId ?? undefined}
         />
       )}
-
-      <UserPlotAssignments />
 
       <section className="space-y-4">
         <div className="flex justify-between items-center">
