@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MapPicker } from "@/components/MapPicker";
 import { LandRequestForm } from "@/components/LandRequestForm";
+import type { IndustrialAreaId } from "@/lib/config/areas";
 
 interface UserViolation {
   areaId: string;
@@ -32,14 +33,18 @@ export default function UserDashboard() {
   const [selectedPlot, setSelectedPlot] = useState<any>(null);
   const [violation, setViolation] = useState<UserViolation | null>(null);
   const [violationLoading, setViolationLoading] = useState(true);
+
   const [lease, setLease] = useState<UserLease | null>(null);
   const [leaseLoading, setLeaseLoading] = useState(true);
+
+  const [selectedAreaId, setSelectedAreaId] = useState<IndustrialAreaId>("area-1");
+
   const router = useRouter();
 
-  // Function to fetch latest data
-  const loadData = async () => {
+  // Function to fetch latest data for the currently selected industrial area
+  const loadData = async (areaId: IndustrialAreaId = selectedAreaId) => {
     try {
-      const res = await fetch("/api/plots");
+      const res = await fetch(`/api/plots?area=${areaId}`);
       const data = await res.json();
       if (Array.isArray(data)) {
         setPlots(data);
@@ -86,23 +91,23 @@ export default function UserDashboard() {
   };
 
   useEffect(() => {
-    loadData(); // Initial load
+    loadData(selectedAreaId); // Initial load
     loadViolation(); // Check violation status
     loadLease(); // Check lease status
 
     // Polling: Refresh data every 5 seconds to catch Admin approvals / updates
     const interval = setInterval(() => {
-      loadData();
+      loadData(selectedAreaId);
       loadViolation();
       loadLease();
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [selectedAreaId]);
 
   // Handle successful submission
   const handleRefresh = () => {
-    loadData(); // Update local state
+    loadData(selectedAreaId); // Update local state
     loadViolation(); // Refresh violation state
     loadLease(); // Refresh lease state
     router.refresh(); // Tell Next.js to refresh server cache
@@ -195,11 +200,26 @@ export default function UserDashboard() {
           plots={plots}
           selectedPlotId={selectedPlot?.plotId}
           onSelect={setSelectedPlot}
+          areaId={selectedAreaId}
+          onAreaChange={(area: IndustrialAreaId) => {
+            setSelectedAreaId(area);
+            setSelectedPlot(null);
+            loadData(area);
+          }}
         />
       </section>
 
       <section>
-        <LandRequestForm selectedPlot={selectedPlot} onSuccess={handleRefresh} />
+        <LandRequestForm
+          selectedPlot={selectedPlot}
+          onSuccess={handleRefresh}
+          areaId={selectedAreaId}
+          onAreaChange={(area: IndustrialAreaId) => {
+            setSelectedAreaId(area);
+            setSelectedPlot(null);
+            loadData(area);
+          }}
+        />
       </section>
 
       <div className="border-t border-white/5 pt-10">

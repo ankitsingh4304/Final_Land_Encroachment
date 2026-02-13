@@ -38,7 +38,7 @@ export function ViolationMap({
   useEffect(() => {
     const loadPlots = async () => {
       try {
-        const res = await fetch("/api/plots");
+        const res = await fetch(`/api/plots?area=${areaId}`);
         if (!res.ok) return;
         const data = await res.json();
         if (Array.isArray(data)) {
