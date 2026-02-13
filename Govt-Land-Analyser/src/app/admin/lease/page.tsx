@@ -137,14 +137,14 @@ export default function LeaseAdminPage() {
   ) ?? visibleAreas[0] ?? INDUSTRIAL_AREAS[0];
 
   return (
-    <main className="max-w-5xl mx-auto p-6 space-y-8">
-      <section className="space-y-4 rounded-3xl border border-white/10 bg-slate-950/80 p-5">
+    <main className="max-w-5xl mx-auto p-6 space-y-8 bg-white">
+      <section className="space-y-4 border border-gray-300 bg-white p-5">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <h1 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-200">
+            <h1 className="text-sm font-semibold uppercase tracking-wide text-gray-900">
               Lease Overview
             </h1>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-gray-600">
               Inspect lease status for allotted plots and flag expired leases
               for follow-up with citizens.
             </p>
@@ -153,13 +153,13 @@ export default function LeaseAdminPage() {
           <div className="flex items-center gap-2">
             <label
               htmlFor="lease-area"
-              className="text-[11px] font-medium text-slate-300"
+              className="text-xs font-medium text-gray-700"
             >
               Industrial Area
             </label>
             <select
-              id=\"lease-area\"
-              className=\"rounded-full border border-white/10 bg-slate-900 px-3 py-1.5 text-xs text-slate-100 outline-none ring-emerald-400/40 focus:border-emerald-400 focus:ring-1\"
+              id="lease-area"
+              className="border border-gray-400 bg-white px-3 py-1.5 text-xs text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
               value={selectedAreaId}
               onChange={(e) =>
                 setSelectedAreaId(e.target.value as IndustrialAreaId)
@@ -182,25 +182,25 @@ export default function LeaseAdminPage() {
         />
       </section>
 
-      <section className="rounded-3xl border border-white/10 bg-slate-950/80 p-5">
+      <section className="border border-gray-300 bg-white p-5">
         {!selectedPlot && (
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-gray-600">
             Click on an allotted plot in the map above to view lease details.
           </p>
         )}
 
         {selectedPlot && (
-          <div className="space-y-3 text-sm text-slate-200">
-            <h2 className="text-sm font-semibold text-slate-100">
+          <div className="space-y-3 text-sm text-gray-900">
+            <h2 className="text-sm font-semibold text-gray-900">
               Plot {selectedPlot.plotId} — Lease Details
             </h2>
 
             {isLoadingLease && (
-              <p className="text-xs text-slate-400">Loading lease...</p>
+              <p className="text-xs text-gray-600">Loading lease...</p>
             )}
 
             {!isLoadingLease && !lease && (
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-gray-600">
                 No lease record found for this plot.
               </p>
             )}
@@ -208,52 +208,52 @@ export default function LeaseAdminPage() {
             {!isLoadingLease && lease && (
               <div className="space-y-2 text-xs">
                 <p>
-                  <span className="font-semibold text-slate-300">
+                  <span className="font-semibold text-gray-700">
                     Allotted to:
                   </span>{" "}
                   {lease.userEmail}
                 </p>
                 <p>
-                  <span className="font-semibold text-slate-300">
+                  <span className="font-semibold text-gray-700">
                     Lease duration:
                   </span>{" "}
                   {lease.leaseYears} years
                 </p>
                 <p>
-                  <span className="font-semibold text-slate-300">
+                  <span className="font-semibold text-gray-700">
                     Allotment date:
                   </span>{" "}
                   {new Date(lease.allotmentDate).toLocaleDateString()}
                 </p>
                 <p>
-                  <span className="font-semibold text-slate-300">
+                  <span className="font-semibold text-gray-700">
                     Lease end date:
                   </span>{" "}
                   {new Date(lease.leaseEndDate).toLocaleDateString()}
                 </p>
                 <p>
-                  <span className="font-semibold text-slate-300">
+                  <span className="font-semibold text-gray-700">
                     Remaining days:
                   </span>{" "}
                   {lease.remainingDays}
                 </p>
                 <p>
-                  <span className="font-semibold text-slate-300">
+                  <span className="font-semibold text-gray-700">
                     Winning bid:
                   </span>{" "}
                   ₹{lease.bidPrice.toLocaleString("en-IN")}
                 </p>
                 <p>
-                  <span className="font-semibold text-slate-300">
+                  <span className="font-semibold text-gray-700">
                     Status:
                   </span>{" "}
                   <span
                     className={
                       lease.status === "active"
-                        ? "text-emerald-400"
+                        ? "text-green-700"
                         : lease.status === "expired"
-                        ? "text-red-400"
-                        : "text-amber-400"
+                        ? "text-red-700"
+                        : "text-amber-700"
                     }
                   >
                     {lease.status}
@@ -265,7 +265,7 @@ export default function LeaseAdminPage() {
                     type="button"
                     onClick={handleFlagLease}
                     disabled={flagging || !lease}
-                    className="rounded-full bg-amber-500 px-4 py-1.5 text-[11px] font-semibold text-slate-950 hover:bg-amber-400 disabled:cursor-not-allowed disabled:bg-amber-500/60"
+                    className="bg-amber-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {flagging ? "Flagging..." : "Flag Lease & Notify User"}
                   </button>

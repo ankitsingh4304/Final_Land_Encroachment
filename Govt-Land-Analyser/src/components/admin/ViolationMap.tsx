@@ -91,13 +91,13 @@ export function ViolationMap({
   };
 
   return (
-    <section className="space-y-4 rounded-3xl border border-red-500/30 bg-slate-950/70 p-5 shadow-[0_0_40px_rgba(239,68,68,0.25)]">
+    <section className="space-y-4 border border-red-600 bg-red-50 p-5 shadow-sm">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-red-300">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-red-800">
             Flag Plots for Violations
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-gray-700">
             Click on any plot in the layout to flag it for encroachment for the
             selected industrial area.
           </p>
@@ -107,7 +107,7 @@ export function ViolationMap({
             href={reportUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full border border-red-400/60 bg-red-500/10 px-3 py-1 text-[11px] font-semibold text-red-200 hover:bg-red-500/20"
+            className="border border-red-600 bg-white px-3 py-1 text-xs font-semibold text-red-700 hover:bg-red-100"
           >
             View Latest PDF Report
           </a>
@@ -122,20 +122,20 @@ export function ViolationMap({
       />
 
       {selectedPlot && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-2xl border border-white/10 bg-slate-900 p-5 shadow-2xl">
-            <h3 className="text-sm font-semibold text-slate-100">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-full max-w-md border border-gray-300 bg-white p-5 shadow-lg">
+            <h3 className="text-sm font-semibold text-gray-900">
               Flag Plot {selectedPlot.plotId} for Violation?
             </h3>
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-gray-600">
               This will mark the plot as encroached and notify the associated
               citizen account, if linked.
             </p>
 
-            <label className="mt-4 block text-xs font-medium text-slate-300">
+            <label className="mt-4 block text-xs font-medium text-gray-700">
               Admin comments (optional)
               <textarea
-                className="mt-1 w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-2 text-xs text-slate-100 outline-none ring-emerald-400/40 focus:border-emerald-400 focus:ring-1"
+                className="mt-1 w-full border border-gray-400 bg-white px-3 py-2 text-xs text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                 rows={3}
                 value={adminComments}
                 onChange={(e) => setAdminComments(e.target.value)}
@@ -146,7 +146,7 @@ export function ViolationMap({
             <div className="mt-4 flex justify-end gap-3 text-xs">
               <button
                 type="button"
-                className="rounded-full border border-slate-500/60 px-4 py-1.5 text-slate-200 hover:bg-slate-800/80"
+                className="border border-gray-400 px-4 py-1.5 text-gray-700 hover:bg-gray-50"
                 onClick={() => {
                   setSelectedPlot(null);
                   setAdminComments("");
@@ -157,7 +157,7 @@ export function ViolationMap({
               </button>
               <button
                 type="button"
-                className="rounded-full bg-red-500 px-4 py-1.5 font-semibold text-slate-950 shadow-lg shadow-red-500/30 hover:bg-red-400 disabled:cursor-not-allowed disabled:bg-red-500/60"
+                className="bg-red-600 px-4 py-1.5 font-semibold text-white shadow-md hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
                 onClick={handleConfirmFlag}
                 disabled={isFlagging}
               >
@@ -169,7 +169,7 @@ export function ViolationMap({
       )}
 
       {lastMessage && (
-        <p className="text-[11px] text-slate-300">
+        <p className="text-xs text-gray-700">
           {lastMessage}
         </p>
       )}

@@ -49,32 +49,31 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex h-full items-center justify-center">
-      <div className="grid w-full max-w-4xl gap-10 rounded-3xl border border-white/10 bg-slate-950/80 p-8 shadow-2xl shadow-emerald-500/25 backdrop-blur-xl md:grid-cols-[1.05fr,0.95fr] md:p-10">
+    <div className="flex h-full items-center justify-center bg-white">
+      <div className="grid w-full max-w-4xl gap-10 border border-gray-300 bg-white p-8 shadow-sm md:grid-cols-[1.05fr,0.95fr] md:p-10">
         <div className="space-y-5">
-          <p className="inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-200">
+          <p className="inline-flex items-center gap-2 border border-blue-600 bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-800">
             Dual role access
           </p>
-          <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">
             Log in as{" "}
-            <span className="bg-gradient-to-r from-emerald-300 to-teal-200 bg-clip-text text-transparent">
+            <span className="text-blue-600">
               {role === "admin" ? "Government Admin" : "Citizen User"}
             </span>
-            .
           </h1>
-          <p className="max-w-md text-sm leading-relaxed text-slate-200/80">
+          <p className="max-w-md text-sm leading-relaxed text-gray-700">
             Use your email and password to access your personalised dashboard.
             Admins can review and action incoming land requests, while users
             can submit and track their own applications.
           </p>
-          <div className="inline-flex gap-2 rounded-full border border-white/10 bg-black/30 p-1 text-xs">
+          <div className="inline-flex gap-2 border border-gray-300 bg-gray-100 p-1 text-xs">
             <button
               type="button"
               onClick={() => setRole("user")}
-              className={`flex-1 rounded-full px-3 py-1.5 font-medium transition ${
+              className={`flex-1 px-3 py-1.5 font-medium transition ${
                 role === "user"
-                  ? "bg-emerald-400 text-slate-900"
-                  : "text-slate-200 hover:bg-white/5"
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-50"
               }`}
             >
               Citizen
@@ -82,10 +81,10 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => setRole("admin")}
-              className={`flex-1 rounded-full px-3 py-1.5 font-medium transition ${
+              className={`flex-1 px-3 py-1.5 font-medium transition ${
                 role === "admin"
-                  ? "bg-emerald-400 text-slate-900"
-                  : "text-slate-200 hover:bg-white/5"
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-50"
               }`}
             >
               Govt Admin
@@ -95,10 +94,10 @@ export default function LoginPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-4 rounded-2xl border border-white/10 bg-slate-950/70 p-6 shadow-xl"
+          className="space-y-4 border border-gray-300 bg-gray-50 p-6"
         >
           <div className="space-y-1">
-            <label className="text-xs font-medium text-slate-200">
+            <label className="text-xs font-medium text-gray-700">
               Email address
             </label>
             <input
@@ -106,12 +105,12 @@ export default function LoginPage() {
               required
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2 text-sm text-slate-50 outline-none ring-emerald-400/60 focus:border-emerald-400/70 focus:ring-2"
+              className="w-full border border-gray-400 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
               placeholder="you@example.com"
             />
           </div>
           <div className="space-y-1">
-            <label className="text-xs font-medium text-slate-200">
+            <label className="text-xs font-medium text-gray-700">
               Password
             </label>
             <input
@@ -121,19 +120,19 @@ export default function LoginPage() {
               onChange={(e) =>
                 setForm({ ...form, password: e.target.value })
               }
-              className="w-full rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2 text-sm text-slate-50 outline-none ring-emerald-400/60 focus:border-emerald-400/70 focus:ring-2"
+              className="w-full border border-gray-400 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
               placeholder="••••••••"
             />
           </div>
 
           {error && (
-            <p className="text-xs font-medium text-red-400">{error}</p>
+            <p className="text-xs font-medium text-red-600">{error}</p>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="flex w-full items-center justify-center rounded-full bg-emerald-400 px-4 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-500/40 transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-70"
+            className="flex w-full items-center justify-center bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {loading
               ? role === "admin"
@@ -145,24 +144,24 @@ export default function LoginPage() {
           </button>
 
           {role === "user" && (
-            <p className="pt-1 text-center text-[11px] text-slate-400/80">
+            <p className="pt-1 text-center text-xs text-gray-600">
               New citizen?{" "}
               <button
                 type="button"
                 onClick={() => router.push("/signup")}
-                className="font-medium text-emerald-300 underline-offset-2 hover:underline"
+                className="font-medium text-blue-600 underline-offset-2 hover:underline"
               >
                 Create an account
               </button>
             </p>
           )}
           {role === "admin" && (
-            <p className="pt-1 text-center text-[11px] text-slate-400/80">
+            <p className="pt-1 text-center text-xs text-gray-600">
               New admin?{" "}
               <button
                 type="button"
                 onClick={() => router.push("/admin/signup")}
-                className="font-medium text-amber-300 underline-offset-2 hover:underline"
+                className="font-medium text-blue-600 underline-offset-2 hover:underline"
               >
                 Register as admin
               </button>

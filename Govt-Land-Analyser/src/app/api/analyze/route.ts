@@ -26,7 +26,13 @@ function runPythonAnalysis(options: {
       cwd: process.cwd(),
     });
 
+    let stdout = "";
     let stderr = "";
+
+    child.stdout.on("data", (data) => {
+      stdout += data.toString();
+      console.log("[map-superimpose stdout]", data.toString());
+    });
 
     child.stderr.on("data", (data) => {
       stderr += data.toString();
@@ -34,16 +40,20 @@ function runPythonAnalysis(options: {
     });
 
     child.on("error", (err) => {
-      reject(err);
+      const errorMsg = err.message.includes("ENOENT") 
+        ? `Python executable not found: ${pythonBin}. Please check MAP_ANALYSIS_PYTHON_BIN environment variable.`
+        : `Failed to spawn Python process: ${err.message}`;
+      reject(new Error(errorMsg));
     });
 
     child.on("close", (code) => {
       if (code === 0) {
         resolve();
       } else {
+        const errorMsg = stderr || stdout || "Unknown error";
         reject(
           new Error(
-            `map-superimpose script exited with code ${code}. Stderr: ${stderr}`
+            `Python script exited with code ${code}.\n\nOutput:\n${stdout}\n\nErrors:\n${stderr}`
           )
         );
       }
@@ -131,6 +141,43 @@ export async function POST(req: Request) {
       );
     }
 
+    // Check if script file exists
+    if (!fs.existsSync(scriptPath)) {
+      return NextResponse.json(
+        {
+          error: `Python script not found at: ${scriptPath}`,
+          details: "Please verify MAP_ANALYSIS_SCRIPT_PATH in your .env.local file",
+        },
+        { status: 500 }
+      );
+    }
+
+    // Check if input image files exist
+    if (!fs.existsSync(officialPath)) {
+      return NextResponse.json(
+        {
+          error: `Official map image not found at: ${officialPath}`,
+          details: `Expected path: ${area.officialMapPath}`,
+        },
+        { status: 500 }
+      );
+    }
+
+    if (!fs.existsSync(satellitePath)) {
+      return NextResponse.json(
+        {
+          error: `Satellite map image not found at: ${satellitePath}`,
+          details: `Expected path: ${area.satelliteMapPath}`,
+        },
+        { status: 500 }
+      );
+    }
+
+    // Ensure output directory exists
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+
     await runPythonAnalysis({
       pythonBin,
       scriptPath,
@@ -150,6 +197,17 @@ export async function POST(req: Request) {
 
     // Absolute filesystem paths of the generated artifacts
     const pdfFsPath = path.join(outputDir, pdfFileName);
+
+    // Verify PDF was generated
+    if (!fs.existsSync(pdfFsPath)) {
+      return NextResponse.json(
+        {
+          error: `PDF report was not generated. Expected at: ${pdfFsPath}`,
+          details: "The Python script may have completed but did not produce the expected output file.",
+        },
+        { status: 500 }
+      );
+    }
 
     // Store the PDF into MongoDB GridFS
     await connectToDatabase();
@@ -194,8 +252,15 @@ export async function POST(req: Request) {
     );
   } catch (error) {
     console.error("Error in /api/analyze:", error);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
     return NextResponse.json(
-      { error: "Failed to run encroachment analysis" },
+      { 
+        error: "Failed to run encroachment analysis",
+        details: errorMessage,
+        suggestion: process.env.MAP_ANALYSIS_USE_MOCK !== "true" 
+          ? "Consider setting MAP_ANALYSIS_USE_MOCK=true for testing, or check Python script path and dependencies."
+          : undefined
+      },
       { status: 500 }
     );
   }

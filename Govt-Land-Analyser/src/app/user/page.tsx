@@ -118,17 +118,17 @@ export default function UserDashboard() {
     lease && (lease.status === "expired" || lease.status === "warning_sent");
 
   return (
-    <main className="max-w-6xl mx-auto p-6 space-y-10 min-h-screen">
+    <main className="max-w-6xl mx-auto p-6 space-y-8 min-h-screen bg-white">
       <section className="space-y-4">
         {!leaseLoading && lease && (
           <div
-            className={`rounded-3xl border p-4 text-sm shadow-[0_0_24px_rgba(59,130,246,0.3)] ${
+            className={`border p-4 text-sm shadow-sm ${
               leaseWarning
-                ? "border-amber-500 bg-amber-500/10 text-amber-50"
-                : "border-blue-500/60 bg-blue-500/10 text-blue-50"
+                ? "border-amber-500 bg-amber-50 text-amber-900"
+                : "border-blue-600 bg-blue-50 text-blue-900"
             }`}
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.2em]">
+            <p className="text-xs font-semibold uppercase tracking-wide">
               {leaseWarning ? "Lease Warning" : "Lease Status"}
             </p>
             <p className="mt-1 text-sm">
@@ -147,15 +147,15 @@ export default function UserDashboard() {
                 lease.
               </p>
             )}
-            <p className="mt-1 text-xs text-slate-100/80">
+            <p className="mt-1 text-xs text-gray-700">
               Winning bid: ₹{lease.bidPrice.toLocaleString("en-IN")}
             </p>
           </div>
         )}
 
         {!violationLoading && hasViolation && (
-          <div className="rounded-3xl border border-red-500/50 bg-red-500/10 p-4 text-sm text-red-100 shadow-[0_0_30px_rgba(239,68,68,0.4)]">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-red-300">
+          <div className="border border-red-600 bg-red-50 p-4 text-sm text-red-900 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-wide text-red-800">
               Encroachment Detected
             </p>
             <p className="mt-1 text-sm">
@@ -164,7 +164,7 @@ export default function UserDashboard() {
               the authority if you believe this is incorrect.
             </p>
             {violation?.adminComments && (
-              <p className="mt-2 text-xs text-red-100/80 italic">
+              <p className="mt-2 text-xs text-red-800 italic">
                 Admin note: {violation.adminComments}
               </p>
             )}
@@ -173,7 +173,7 @@ export default function UserDashboard() {
                 href={violation.reportUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 inline-flex items-center gap-2 rounded-full bg-red-500 px-4 py-1.5 text-xs font-semibold text-slate-950 hover:bg-red-400"
+                className="mt-3 inline-flex items-center gap-2 bg-red-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-red-700"
               >
                 Download Encroachment Report (PDF)
                 <span className="text-base">↓</span>
@@ -183,8 +183,8 @@ export default function UserDashboard() {
         )}
 
         {!violationLoading && !hasViolation && (
-          <div className="rounded-3xl border border-emerald-500/40 bg-emerald-500/5 p-4 text-sm text-emerald-100">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">
+          <div className="border border-green-600 bg-green-50 p-4 text-sm text-green-900">
+            <p className="text-xs font-semibold uppercase tracking-wide text-green-800">
               No Violations Detected
             </p>
             <p className="mt-1 text-sm">
@@ -222,11 +222,11 @@ export default function UserDashboard() {
         />
       </section>
 
-      <div className="border-t border-white/5 pt-10">
-        <h2 className="text-xl font-bold mb-4 text-slate-200">
+      <div className="border-t border-gray-300 pt-8">
+        <h2 className="text-xl font-bold mb-4 text-gray-900">
           Your Applications
         </h2>
-        <div className="bg-slate-900/40 p-6 rounded-3xl border border-white/5 text-slate-500 text-sm italic">
+        <div className="bg-gray-50 p-6 border border-gray-300 text-gray-600 text-sm">
           Fetching your active requests...
         </div>
       </div>

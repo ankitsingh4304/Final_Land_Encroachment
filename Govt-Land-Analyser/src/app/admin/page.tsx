@@ -43,15 +43,46 @@ export default function AdminDashboard() {
         body: JSON.stringify({ areaId }),
       });
 
+      const responseText = await res.text();
+      let errorData;
+      
+      try {
+        errorData = JSON.parse(responseText);
+      } catch (e) {
+        // If response is not JSON, use the text as error message
+        errorData = { error: responseText || "Unknown error occurred" };
+      }
+
       if (!res.ok) {
-        console.error("Analyze request failed", await res.text());
+        const errorMessage = errorData.details || errorData.error || `HTTP ${res.status}: ${res.statusText}`;
+        const suggestion = errorData.suggestion || "";
+        const fullMessage = `Analysis failed: ${errorMessage}${suggestion ? `\n\nSuggestion: ${suggestion}` : ""}`;
+        alert(fullMessage);
+        
+        // Enhanced error logging
+        const errorInfo = {
+          status: res.status,
+          statusText: res.statusText,
+          errorData: errorData,
+          responseText: responseText,
+          url: res.url,
+        };
+        console.error("Analyze request failed", errorInfo);
+        console.error("Full error details:", JSON.stringify(errorInfo, null, 2));
         return;
       }
 
-      const data = (await res.json()) as AnalyzeResult;
+      const data = JSON.parse(responseText) as AnalyzeResult;
       setLastAnalysis(data);
     } catch (err) {
-      console.error("Analyze request error", err);
+      const errorMessage = err instanceof Error ? err.message : "Network error occurred";
+      alert(`Analysis error: ${errorMessage}`);
+      console.error("Analyze request error (catch block):", err);
+      console.error("Error details:", {
+        message: err instanceof Error ? err.message : String(err),
+        stack: err instanceof Error ? err.stack : undefined,
+        error: err
+      });
     } finally {
       setIsAnalyzing(false);
     }
@@ -86,7 +117,7 @@ export default function AdminDashboard() {
 
   if (loading && requests.length === 0) {
     return (
-      <div className="max-w-5xl mx-auto p-6 space-y-8">
+      <div className="max-w-5xl mx-auto p-6 space-y-8 bg-white">
         <AreaAnalysisPanel
           onAnalyze={handleAnalyzeArea}
           isAnalyzing={isAnalyzing}
@@ -98,7 +129,7 @@ export default function AdminDashboard() {
             reportFileId={lastAnalysis.reportFileId ?? undefined}
           />
         )}
-        <div className="p-10 text-emerald-500 animate-pulse font-mono">
+        <div className="p-10 text-blue-600 animate-pulse">
           SYNCING CONSOLE...
         </div>
       </div>
@@ -106,7 +137,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-8">
+    <div className="max-w-5xl mx-auto p-6 space-y-8 bg-white">
       <AreaAnalysisPanel
         onAnalyze={handleAnalyzeArea}
         isAnalyzing={isAnalyzing}
@@ -122,37 +153,37 @@ export default function AdminDashboard() {
 
       <section className="space-y-4">
         <div className="flex justify-between items-center">
-          <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-tighter">
+          <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
             Live Applications
           </h3>
-          <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full animate-pulse">
+          <span className="text-xs text-blue-600 bg-blue-50 px-2 py-1 border border-blue-200 animate-pulse">
             ● Live Sync Active
           </span>
         </div>
 
         {requests.length === 0 ? (
-          <div className="p-10 border border-white/5 bg-slate-900/20 rounded-3xl text-slate-500 text-center italic">
+          <div className="p-10 border border-gray-300 bg-gray-50 text-gray-600 text-center">
             No pending requests.
           </div>
         ) : (
           requests.map((req: any) => (
             <div
               key={req._id}
-              className="flex flex-wrap items-center justify-between gap-4 p-5 rounded-2xl border border-white/10 bg-slate-950/50 shadow-md hover:border-emerald-500/30 transition-colors"
+              className="flex flex-wrap items-center justify-between gap-4 p-5 border border-gray-300 bg-white shadow-sm hover:border-blue-600 transition-colors"
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] bg-emerald-500 text-slate-950 px-2 py-0.5 rounded font-black">
+                  <span className="text-xs bg-blue-600 text-white px-2 py-0.5 font-bold">
                     PLOT {req.plotId}
                   </span>
-                  <span className="text-slate-200 font-medium">
+                  <span className="text-gray-900 font-medium">
                     {req.quotedBy}
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 italic">
+                <p className="text-xs text-gray-600 italic">
                   "{req.purpose}"
                 </p>
-                <p className="text-emerald-400 font-bold">
+                <p className="text-blue-700 font-bold">
                   ₹{req.quotedPrice.toLocaleString("en-IN")}
                 </p>
               </div>
@@ -160,13 +191,13 @@ export default function AdminDashboard() {
               <div className="flex gap-3">
                 <button
                   onClick={() => handleAction(req._id, "decline")}
-                  className="px-5 py-2 rounded-full border border-red-500/50 text-red-400 text-xs font-bold hover:bg-red-500/10 transition-all"
+                  className="px-5 py-2 border border-red-600 text-red-600 text-xs font-bold hover:bg-red-50 transition-all"
                 >
                   Decline
                 </button>
                 <button
                   onClick={() => handleAction(req._id, "accept")}
-                  className="px-5 py-2 rounded-full bg-emerald-500 text-slate-950 text-xs font-bold hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20"
+                  className="px-5 py-2 bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition-all shadow-md"
                 >
                   Approve & Clear Plot
                 </button>

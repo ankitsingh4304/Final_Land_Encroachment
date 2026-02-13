@@ -2,21 +2,21 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex h-full flex-col justify-center">
-      <section className="grid gap-10 rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-emerald-900/40 p-8 shadow-2xl shadow-emerald-500/20 backdrop-blur-lg md:grid-cols-[1.3fr,1fr] md:p-10">
+    <div className="flex h-full flex-col justify-center bg-white">
+      <section className="grid gap-8 border border-gray-300 bg-white p-8 shadow-sm md:grid-cols-[1.3fr,1fr] md:p-10">
         <div className="space-y-6">
-          <p className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-xs font-medium tracking-tight text-emerald-200">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-300 shadow-[0_0_8px_rgba(74,222,128,0.8)]" />
-            Govt–Citizen Land Allocation Platform
+          <p className="inline-flex items-center gap-2 border border-blue-600 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-800">
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
+            Government-Citizen Land Allocation Platform
           </p>
-          <h1 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
-            Make{" "}
-            <span className="bg-gradient-to-r from-emerald-300 via-emerald-200 to-teal-200 bg-clip-text text-transparent">
-              public land
+          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl md:text-5xl">
+            Transparent, Fair & Data-Driven{" "}
+            <span className="text-blue-600">
+              Public Land
             </span>{" "}
-            allocation transparent, fair & data‑driven.
+            Allocation System
           </h1>
-          <p className="max-w-xl text-sm leading-relaxed text-slate-200/80 sm:text-base">
+          <p className="max-w-xl text-sm leading-relaxed text-gray-700 sm:text-base">
             Citizens can discover vacant government land, mark a precise
             location on the map, and submit a fair price proposal. Government
             administrators get a clean dashboard to review, approve or decline
@@ -26,7 +26,7 @@ export default function Home() {
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
               href="/signup"
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-emerald-400 px-5 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-emerald-500/40 transition hover:bg-emerald-300"
+              className="group inline-flex items-center justify-center gap-2 bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-blue-700"
             >
               Get started as Citizen
               <span className="text-base transition-transform group-hover:translate-x-0.5">
@@ -35,82 +35,81 @@ export default function Home() {
             </Link>
             <Link
               href="/login?role=admin"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-slate-100 transition hover:border-emerald-400/60 hover:bg-emerald-500/10"
+              className="inline-flex items-center justify-center gap-2 border border-gray-400 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 transition hover:border-blue-600 hover:bg-blue-50"
             >
               Government Admin Login
             </Link>
           </div>
 
-          <div className="grid gap-3 pt-4 text-xs text-slate-200/80 sm:grid-cols-3">
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <p className="font-semibold text-emerald-200">Map-first flows</p>
-              <p className="mt-1 text-[11px] text-slate-300/80">
+          <div className="grid gap-3 pt-4 text-xs text-gray-700 sm:grid-cols-3">
+            <div className="border border-gray-300 bg-gray-50 p-3">
+              <p className="font-semibold text-blue-700">Map-based Selection</p>
+              <p className="mt-1 text-xs text-gray-600">
                 Citizens pick an exact vacant parcel with interactive map
                 selection instead of ambiguous text-only forms.
               </p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-black/15 p-3">
-              <p className="font-semibold text-emerald-200">
-                Dual role access
+            <div className="border border-gray-300 bg-gray-50 p-3">
+              <p className="font-semibold text-blue-700">
+                Dual Role Access
               </p>
-              <p className="mt-1 text-[11px] text-slate-300/80">
+              <p className="mt-1 text-xs text-gray-600">
                 Dedicated views for admins and applicants with clear status and
                 audit trail.
               </p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-black/10 p-3">
-              <p className="font-semibold text-emerald-200">Hackathon ready</p>
-              <p className="mt-1 text-[11px] text-slate-300/80">
-                Built with Next.js App Router, Tailwind, and MongoDB—ready to
-                demo in minutes.
+            <div className="border border-gray-300 bg-gray-50 p-3">
+              <p className="font-semibold text-blue-700">Secure Platform</p>
+              <p className="mt-1 text-xs text-gray-600">
+                Built with modern technology for secure and efficient land allocation management.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col justify-between gap-4 rounded-2xl border border-emerald-400/20 bg-black/40 p-4 shadow-[0_0_40px_rgba(16,185,129,0.35)]">
+        <div className="flex flex-col justify-between gap-4 border border-gray-300 bg-gray-50 p-4">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-emerald-300/80">
-              Live preview
+            <p className="text-xs font-medium uppercase tracking-wide text-gray-600">
+              Quick Access
             </p>
-            <p className="mt-2 text-sm font-semibold text-slate-50">
+            <p className="mt-2 text-sm font-semibold text-gray-900">
               Choose how you want to continue
             </p>
           </div>
           <div className="space-y-3 text-sm">
             <Link
               href="/login?role=user"
-              className="group flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2.5 transition hover:border-emerald-400/60 hover:bg-emerald-950/70"
+              className="group flex items-center justify-between border border-gray-300 bg-white px-3 py-2.5 transition hover:border-blue-600 hover:bg-blue-50"
             >
               <div>
-                <p className="font-medium text-slate-50">Continue as Citizen</p>
-                <p className="text-[11px] text-slate-300/80">
+                <p className="font-medium text-gray-900">Continue as Citizen</p>
+                <p className="text-xs text-gray-600">
                   Track your land requests and approvals.
                 </p>
               </div>
-              <span className="rounded-full bg-emerald-400/20 px-2 py-1 text-[10px] font-semibold text-emerald-200">
+              <span className="bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-800">
                 USER LOGIN
               </span>
             </Link>
 
             <Link
               href="/login?role=admin"
-              className="group flex items-center justify-between rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-3 py-2.5 transition hover:bg-emerald-500/20"
+              className="group flex items-center justify-between border border-blue-600 bg-blue-50 px-3 py-2.5 transition hover:bg-blue-100"
             >
               <div>
-                <p className="font-medium text-emerald-100">
-                  Continue as Govt Admin
+                <p className="font-medium text-blue-900">
+                  Continue as Government Admin
                 </p>
-                <p className="text-[11px] text-emerald-100/80">
+                <p className="text-xs text-blue-700">
                   Review and decide on citizen proposals.
                 </p>
               </div>
-              <span className="rounded-full bg-emerald-400 px-2 py-1 text-[10px] font-semibold text-slate-900">
+              <span className="bg-blue-600 px-2 py-1 text-xs font-semibold text-white">
                 ADMIN LOGIN
               </span>
             </Link>
           </div>
-          <p className="mt-2 text-[11px] text-slate-400/80">
+          <p className="mt-2 text-xs text-gray-600">
             No installation required. Just log in and start exploring potential
             public land allocations.
           </p>

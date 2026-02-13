@@ -41,31 +41,30 @@ export default function AdminSignupPage() {
   }
 
   return (
-    <div className="flex h-full items-center justify-center">
-      <div className="grid w-full max-w-4xl gap-10 rounded-3xl border border-white/10 bg-slate-950/80 p-8 shadow-2xl shadow-emerald-500/25 backdrop-blur-xl md:grid-cols-[1.1fr,0.9fr] md:p-10">
+    <div className="flex h-full items-center justify-center bg-white">
+      <div className="grid w-full max-w-4xl gap-10 border border-gray-300 bg-white p-8 shadow-sm md:grid-cols-[1.1fr,0.9fr] md:p-10">
         <div className="space-y-5">
-          <p className="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-amber-200">
+          <p className="inline-flex items-center gap-2 border border-blue-600 bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-800">
             Admin onboarding
           </p>
-          <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">
             Create your{" "}
-            <span className="bg-gradient-to-r from-amber-300 to-amber-200 bg-clip-text text-transparent">
+            <span className="text-blue-600">
               government admin account
             </span>
-            .
           </h1>
-          <p className="max-w-md text-sm leading-relaxed text-slate-200/80">
+          <p className="max-w-md text-sm leading-relaxed text-gray-700">
             Invite-only registration for administrators. Choose your access
             level (state, district or block) and provide the shared admin
             secret issued by your system owner.
           </p>
-          <ul className="space-y-2 text-xs text-slate-200/80">
+          <ul className="space-y-2 text-xs text-gray-700">
             <li className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400" />
+              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-blue-600" />
               <span>State admins can see all districts; district admins see their own districts; block admins focus on a single block.</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400" />
+              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-blue-600" />
               <span>Secure access with admin secret verification.</span>
             </li>
           </ul>
@@ -73,10 +72,10 @@ export default function AdminSignupPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-4 rounded-2xl border border-white/10 bg-slate-950/70 p-6 shadow-xl"
+          className="space-y-4 border border-gray-300 bg-gray-50 p-6"
         >
           <div className="space-y-1">
-            <label className="text-xs font-medium text-slate-200">
+            <label className="text-xs font-medium text-gray-700">
               Full name
             </label>
             <input
@@ -84,25 +83,25 @@ export default function AdminSignupPage() {
               required
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="w-full rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2 text-sm text-slate-50 outline-none ring-emerald-400/60 focus:border-emerald-400/70 focus:ring-2"
+              className="w-full border border-gray-400 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
               placeholder="Enter your full name"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-medium text-slate-200">Email</label>
+            <label className="text-xs font-medium text-gray-700">Email</label>
             <input
               type="email"
               required
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2 text-sm text-slate-50 outline-none ring-emerald-400/60 focus:border-emerald-400/70 focus:ring-2"
+              className="w-full border border-gray-400 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
               placeholder="admin@example.com"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-medium text-slate-200">
+            <label className="text-xs font-medium text-gray-700">
               Contact number
             </label>
             <input
@@ -112,13 +111,13 @@ export default function AdminSignupPage() {
               onChange={(e) =>
                 setForm({ ...form, contactNumber: e.target.value })
               }
-              className="w-full rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2 text-sm text-slate-50 outline-none ring-emerald-400/60 focus:border-emerald-400/70 focus:ring-2"
+              className="w-full border border-gray-400 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
               placeholder="+91-XXXXXXXXXX"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-medium text-slate-200">
+            <label className="text-xs font-medium text-gray-700">
               Admin level
             </label>
             <select
@@ -129,19 +128,19 @@ export default function AdminSignupPage() {
                   adminLevel: e.target.value as AdminLevel,
                 })
               }
-              className="w-full rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2 text-xs text-slate-50 outline-none ring-emerald-400/60 focus:border-emerald-400/70 focus:ring-2"
+              className="w-full border border-gray-400 bg-white px-3 py-2 text-xs text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
             >
               <option value="state_admin">State-level Admin</option>
               <option value="district_admin">District-level Admin</option>
               <option value="block_admin">Block-level Admin</option>
             </select>
-            <p className="text-[10px] text-slate-400">
+            <p className="text-xs text-gray-600">
               This controls the scope of areas you manage in the system.
             </p>
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-medium text-slate-200">
+            <label className="text-xs font-medium text-gray-700">
               Password
             </label>
             <input
@@ -150,13 +149,13 @@ export default function AdminSignupPage() {
               minLength={6}
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
-              className="w-full rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2 text-sm text-slate-50 outline-none ring-emerald-400/60 focus:border-emerald-400/70 focus:ring-2"
+              className="w-full border border-gray-400 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
               placeholder="Minimum 6 characters"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-medium text-slate-200">
+            <label className="text-xs font-medium text-gray-700">
               Admin secret
             </label>
             <input
@@ -166,29 +165,29 @@ export default function AdminSignupPage() {
               onChange={(e) =>
                 setForm({ ...form, adminSecret: e.target.value })
               }
-              className="w-full rounded-xl border border-amber-400/30 bg-slate-900/70 px-3 py-2 text-sm text-slate-50 outline-none ring-amber-400/60 focus:border-amber-400/70 focus:ring-2"
+              className="w-full border border-blue-600 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
               placeholder="Enter admin secret from your administrator"
             />
           </div>
 
           {error && (
-            <p className="text-xs font-medium text-red-400">{error}</p>
+            <p className="text-xs font-medium text-red-600">{error}</p>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="flex w-full items-center justify-center rounded-full bg-amber-400 px-4 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-amber-500/40 transition hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-70"
+            className="flex w-full items-center justify-center bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {loading ? "Creating admin account..." : "Create admin account"}
           </button>
 
-          <p className="pt-1 text-center text-[11px] text-slate-400/80">
+          <p className="pt-1 text-center text-xs text-gray-600">
             Already an admin?{" "}
             <button
               type="button"
               onClick={() => router.push("/login?role=admin")}
-              className="font-medium text-amber-300 underline-offset-2 hover:underline"
+              className="font-medium text-blue-600 underline-offset-2 hover:underline"
             >
               Log in as admin
             </button>

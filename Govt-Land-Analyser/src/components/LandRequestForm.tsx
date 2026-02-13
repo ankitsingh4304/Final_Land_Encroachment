@@ -27,16 +27,16 @@ export function LandRequestForm({
 
   if (!selectedPlot) {
     return (
-      <div className="p-8 rounded-3xl border border-white/5 bg-slate-900/20 text-slate-500 text-center italic space-y-4">
+      <div className="p-8 border border-gray-300 bg-gray-50 text-gray-600 text-center space-y-4">
         <div>
           Select an industrial sector and then click a plot on the map to begin your application.
         </div>
         <div className="flex items-center justify-center gap-3">
-          <span className="text-xs font-medium text-slate-300">
+          <span className="text-xs font-medium text-gray-700">
             Industrial Sector
           </span>
           <select
-            className="rounded-full border border-emerald-400/60 bg-slate-950 px-3 py-1 text-xs text-slate-100 outline-none ring-emerald-400/40 focus:border-emerald-400 focus:ring-1"
+            className="border border-gray-400 bg-white px-3 py-1 text-xs text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
             value={areaId}
             onChange={(e) => onAreaChange(e.target.value as IndustrialAreaId)}
           >
@@ -82,15 +82,15 @@ export function LandRequestForm({
   };
 
   return (
-    <div className="bg-slate-900/40 p-8 rounded-3xl border border-white/5 space-y-6">
+    <div className="bg-gray-50 p-8 border border-gray-300 space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h3 className="text-emerald-400 font-bold text-sm uppercase tracking-wider">
+        <h3 className="text-blue-700 font-bold text-sm uppercase tracking-wide">
           Plot #{selectedPlot.plotId} Application
         </h3>
         <div className="flex items-center gap-2 text-xs">
-          <span className="font-medium text-slate-300">Industrial Sector</span>
+          <span className="font-medium text-gray-700">Industrial Sector</span>
           <select
-            className="rounded-full border border-emerald-400/60 bg-slate-950 px-3 py-1 text-xs text-slate-100 outline-none ring-emerald-400/40 focus:border-emerald-400 focus:ring-1"
+            className="border border-gray-400 bg-white px-3 py-1 text-xs text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
             value={areaId}
             onChange={(e) => onAreaChange(e.target.value as IndustrialAreaId)}
           >
@@ -103,31 +103,31 @@ export function LandRequestForm({
       
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-slate-200 mb-2">Purpose</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Purpose</label>
           <textarea 
             value={purpose}
             onChange={(e) => setPurpose(e.target.value)}
             placeholder="Describe your intended use (e.g., Textile Factory)..."
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-slate-300 outline-none focus:border-emerald-500/50 transition-all"
+            className="w-full bg-white border border-gray-400 p-4 text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
             rows={3}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-200 mb-2">Your Quoted Price (₹)</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Your Quoted Price (₹)</label>
           <input 
             type="number"
             value={quotedPrice}
             onChange={(e) => setQuotedPrice(e.target.value)}
             placeholder={`Base Price: ₹${selectedPlot.leasePrice.toLocaleString()}`}
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-slate-300 outline-none focus:border-emerald-500/50 transition-all"
+            className="w-full bg-white border border-gray-400 p-4 text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
           />
         </div>
 
         <button 
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold py-3 px-10 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.3)] disabled:opacity-50 transition-all active:scale-95"
+          className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-10 shadow-md disabled:opacity-50 transition-all"
         >
           {isSubmitting ? "Processing..." : "Submit land request"}
         </button>

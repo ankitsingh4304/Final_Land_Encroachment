@@ -71,13 +71,13 @@ export function AreaAnalysisPanel({
   };
 
   return (
-    <section className="space-y-4 rounded-3xl border border-emerald-500/20 bg-slate-950/60 p-5 shadow-[0_0_40px_rgba(16,185,129,0.25)]">
+    <section className="space-y-4 border border-gray-300 bg-white p-5 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-300">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-blue-700">
             Encroachment Analyzer
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-gray-600">
             Select an industrial area to compare official vs satellite maps.
           </p>
         </div>
@@ -85,13 +85,13 @@ export function AreaAnalysisPanel({
         <div className="flex items-center gap-2">
           <label
             htmlFor="industrial-area"
-            className="text-[11px] font-medium text-slate-300"
+            className="text-xs font-medium text-gray-700"
           >
             Industrial Area
           </label>
           <select
             id="industrial-area"
-            className="rounded-full border border-white/10 bg-slate-900 px-3 py-1.5 text-xs text-slate-100 shadow-sm outline-none ring-emerald-400/40 focus:border-emerald-400 focus:ring-1"
+            className="border border-gray-400 bg-white px-3 py-1.5 text-xs text-gray-900 shadow-sm outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
             value={selectedAreaId}
             onChange={(e) =>
               setSelectedAreaId(e.target.value as IndustrialAreaId)
@@ -108,10 +108,10 @@ export function AreaAnalysisPanel({
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-300">
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-700">
             Official Layout
           </p>
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-slate-950/80">
+          <div className="relative overflow-hidden border border-gray-300 bg-gray-50">
             <div className="relative h-56 w-full md:h-64">
               <Image
                 src={selectedArea.officialMapPath}
@@ -126,10 +126,10 @@ export function AreaAnalysisPanel({
         </div>
 
         <div className="space-y-2">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-300">
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-700">
             Latest Satellite View
           </p>
-          <div className="relative overflow-hidden rounded-2xl border border-emerald-500/30 bg-slate-950/80">
+          <div className="relative overflow-hidden border border-blue-600 bg-gray-50">
             <div className="relative h-56 w-full md:h-64">
               <Image
                 src={selectedArea.satelliteMapPath}
@@ -146,13 +146,13 @@ export function AreaAnalysisPanel({
 
       <div className="flex items-center justify-between gap-3 pt-1">
         <div className="flex-1">
-          <p className="text-[11px] text-slate-400">
+          <p className="text-xs text-gray-600">
             The analyzer will run the Python pipeline using the selected area
             maps and generate an encroachment report.
           </p>
           {isAnalyzing && (
-            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
-              <div className="h-full w-1/2 animate-[progress_1.2s_ease-in-out_infinite] rounded-full bg-gradient-to-r from-emerald-400 via-emerald-300 to-teal-300" />
+            <div className="mt-2 h-1.5 w-full overflow-hidden bg-gray-200">
+              <div className="h-full w-1/2 animate-[progress_1.2s_ease-in-out_infinite] bg-blue-600" />
             </div>
           )}
         </div>
@@ -160,10 +160,10 @@ export function AreaAnalysisPanel({
           type="button"
           onClick={handleAnalyzeClick}
           disabled={isAnalyzing}
-          className="inline-flex items-center gap-2 rounded-full bg-emerald-500 px-4 py-2 text-xs font-semibold text-slate-950 shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:bg-emerald-500/60"
+          className="inline-flex items-center gap-2 bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-md transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isAnalyzing && (
-            <span className="h-3 w-3 animate-spin rounded-full border-2 border-slate-900 border-t-transparent" />
+            <span className="h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent" />
           )}
           <span>
             {isAnalyzing ? "Analyzing Encroachment..." : "Analyze Encroachment"}

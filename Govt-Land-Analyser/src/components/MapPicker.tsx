@@ -53,13 +53,13 @@ export function MapPicker({
   const { width, height } = AREA_DIMENSIONS[effectiveAreaId];
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-emerald-500/20 bg-slate-950 shadow-[0_0_50px_rgba(16,185,129,0.1)]">
-      <div className="flex items-center justify-between gap-3 border-b border-emerald-500/20 bg-slate-900/40 px-4 py-3">
-        <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">
+    <div className="relative overflow-hidden border border-gray-300 bg-white shadow-sm">
+      <div className="flex items-center justify-between gap-3 border-b border-gray-300 bg-gray-50 px-4 py-3">
+        <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-700">
           Select Industrial Sector
         </h3>
         <select
-          className="rounded-full border border-emerald-400/60 bg-slate-950 px-3 py-1 text-xs text-slate-100 outline-none ring-emerald-400/40 focus:border-emerald-400 focus:ring-1"
+          className="border border-gray-400 bg-white px-3 py-1 text-xs text-gray-900 outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
           value={effectiveAreaId}
           onChange={(e) => {
             const next = e.target.value as IndustrialAreaId;
@@ -82,15 +82,15 @@ export function MapPicker({
               const isBought = plot.bought;
 
               // Styles
-              let fill = "rgba(16, 185, 129, 0.4)"; // Green
-              let stroke = "#10b981";
+              let fill = "rgba(59, 130, 246, 0.3)"; // Light blue
+              let stroke = "#3b82f6";
 
               if (isBought) {
-                fill = "rgba(239, 68, 68, 0.6)"; // Red
-                stroke = "#ef4444";
+                fill = "rgba(239, 68, 68, 0.4)"; // Light red
+                stroke = "#dc2626";
               } else if (isSelected) {
-                fill = "rgba(250, 204, 21, 0.7)"; // Yellow
-                stroke = "#facc15";
+                fill = "rgba(251, 191, 36, 0.5)"; // Light yellow
+                stroke = "#f59e0b";
               }
 
               const clickable = allowClickOnBought || !isBought;
@@ -106,7 +106,7 @@ export function MapPicker({
                     clickable
                       ? isSelected
                         ? "cursor-pointer"
-                        : "cursor-pointer hover:fill-emerald-400/60"
+                        : "cursor-pointer hover:fill-blue-400/50"
                       : "cursor-not-allowed"
                   }`}
                   onClick={() => {
