@@ -42,11 +42,12 @@ export async function GET() {
     return NextResponse.json(
       {
         violation: {
+          id: violation._id.toString(),
           areaId: violation.areaId,
           plotId: violation.plotId,
           violationStatus: violation.violationStatus,
           reportPdfPath: violation.reportPdfPath,
-           reportFileId: violation.reportFileId
+          reportFileId: violation.reportFileId
             ? violation.reportFileId.toString()
             : null,
           reportUrl: violation.reportFileId
