@@ -27,6 +27,8 @@ const PlotSchema = new Schema({
     type: String, 
     default: null 
   },
+  /** User email (e.g. Gmail) mapped to this plot. */
+  user_gmail: { type: String, default: null },
   allotmentDateTime: { 
     type: Date, 
     default: null 

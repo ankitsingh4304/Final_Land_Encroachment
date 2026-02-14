@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { MapPicker } from "@/components/MapPicker";
 import { LandRequestForm } from "@/components/LandRequestForm";
@@ -33,6 +33,9 @@ export default function UserDashboard() {
   const [selectedPlot, setSelectedPlot] = useState<any>(null);
   const [violation, setViolation] = useState<UserViolation | null>(null);
   const [violationLoading, setViolationLoading] = useState(true);
+  const [showFlaggedDialog, setShowFlaggedDialog] = useState(false);
+  const hasTriggeredDownload = useRef(false);
+  const hasShownFlaggedDialog = useRef(false);
 
   const [lease, setLease] = useState<UserLease | null>(null);
   const [leaseLoading, setLeaseLoading] = useState(true);
@@ -105,6 +108,25 @@ export default function UserDashboard() {
     return () => clearInterval(interval);
   }, [selectedAreaId]);
 
+  // When user is flagged (violationStatus true), show dialog and trigger report download once per page load
+  useEffect(() => {
+    if (violationLoading || !violation?.violationStatus) return;
+    if (hasShownFlaggedDialog.current) return;
+    hasShownFlaggedDialog.current = true;
+    setShowFlaggedDialog(true);
+    if (violation.reportUrl && !hasTriggeredDownload.current) {
+      hasTriggeredDownload.current = true;
+      const link = document.createElement("a");
+      link.href = violation.reportUrl;
+      link.setAttribute("download", "encroachment-report.pdf");
+      link.setAttribute("target", "_blank");
+      link.rel = "noopener noreferrer";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }, [violationLoading, violation?.violationStatus, violation?.reportUrl]);
+
   // Handle successful submission
   const handleRefresh = () => {
     loadData(selectedAreaId); // Update local state
@@ -119,6 +141,60 @@ export default function UserDashboard() {
 
   return (
     <main className="max-w-6xl mx-auto p-6 space-y-8 min-h-screen bg-white">
+      {/* Flagged violation dialog */}
+      {showFlaggedDialog && violation?.violationStatus && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="flagged-dialog-title"
+        >
+          <div className="w-full max-w-md rounded-lg border-2 border-red-600 bg-white p-6 shadow-xl">
+            <h2
+              id="flagged-dialog-title"
+              className="text-lg font-bold text-red-800"
+            >
+              You have been flagged
+            </h2>
+            <p className="mt-2 text-sm text-gray-700">
+              Your plot has been flagged for an encroachment violation. Please
+              review the report that has been downloaded and contact the
+              authority if you need to clarify.
+            </p>
+            {violation.adminComments && (
+              <div className="mt-3 rounded border border-red-200 bg-red-50 p-3">
+                <p className="text-xs font-semibold uppercase text-red-800">
+                  Reason
+                </p>
+                <p className="mt-1 text-sm text-red-900">
+                  {violation.adminComments}
+                </p>
+              </div>
+            )}
+            <div className="mt-4 flex gap-3">
+              {violation.reportUrl && (
+                <a
+                  href={violation.reportUrl}
+                  download="encroachment-report.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+                >
+                  Download report again
+                </a>
+              )}
+              <button
+                type="button"
+                onClick={() => setShowFlaggedDialog(false)}
+                className="rounded border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <section className="space-y-4">
         {!leaseLoading && lease && (
           <div

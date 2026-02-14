@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { requireAdmin } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
-import { User } from "@/models/User";
 import { Violation } from "@/models/Violation";
+import type { IndustrialAreaId } from "@/lib/config/areas";
 
 interface FlagViolationBody {
   areaId?: string;
@@ -35,16 +35,27 @@ export async function POST(req: Request) {
 
     await connectToDatabase();
 
-    const user = await User.findOne({
-      plotId: String(plotId),
-      areaId: String(areaId),
+    const areaIdTyped = areaId as IndustrialAreaId;
+    const plotIdNum = Number(plotId);
+    const collectionName =
+      areaIdTyped === "area-2"
+        ? "plots1"
+        : areaIdTyped === "area-3"
+          ? "plots2"
+          : "plots";
+    const plotsCollection = mongoose.connection.collection(collectionName);
+    const plotDoc = await plotsCollection.findOne({
+      plotId: Number.isNaN(plotIdNum) ? plotId : plotIdNum,
     });
+    const plotDocAny = plotDoc as { user_gmail?: string; boughtBy?: string } | null;
+    const userEmail =
+      plotDocAny?.user_gmail ?? plotDocAny?.boughtBy ?? null;
 
     const violation = await Violation.findOneAndUpdate(
       { areaId: String(areaId), plotId: String(plotId) },
       {
         $set: {
-          user: user?._id ?? null,
+          user_mail: userEmail,
           violationStatus: true,
           reportPdfPath: reportPdfPath ?? undefined,
           reportFileId: reportFileId
@@ -58,15 +69,15 @@ export async function POST(req: Request) {
         new: true,
         upsert: true,
       }
-    ).populate("user");
+    );
 
     return NextResponse.json(
       {
         success: true,
         areaId: violation.areaId,
         plotId: violation.plotId,
-        userId: user?._id?.toString() ?? null,
-        userEmail: (violation.user as any)?.email ?? null,
+        user_mail: violation.user_mail ?? null,
+        userEmail: violation.user_mail ?? null,
         violationStatus: violation.violationStatus,
         reportPdfPath: violation.reportPdfPath,
         reportFileId: violation.reportFileId

@@ -4,6 +4,10 @@ import type { IUser } from "./User";
 export interface IViolation extends Document {
   user?: IUser["_id"] | null;
   /**
+   * Email of the user mapped to this plot (from User collection), stored when flagging.
+   */
+  user_mail?: string | null;
+  /**
    * Plot identifier from the clickable layout (e.g. "A-12" or "12").
    */
   plotId: string;
@@ -39,6 +43,7 @@ export interface IViolation extends Document {
 const ViolationSchema = new Schema<IViolation>(
   {
     user: { type: Schema.Types.ObjectId, ref: "User", required: false },
+    user_mail: { type: String, default: null },
     plotId: { type: String, required: true, index: true },
     areaId: { type: String, required: true, index: true },
     violationStatus: { type: Boolean, default: false },

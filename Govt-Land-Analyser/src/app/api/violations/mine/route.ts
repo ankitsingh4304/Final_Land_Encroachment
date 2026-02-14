@@ -13,20 +13,24 @@ export async function GET() {
       );
     }
 
-    if (!user.plotId || !user.areaId) {
-      return NextResponse.json(
-        { violation: null },
-        { status: 200 }
-      );
-    }
-
     await connectToDatabase();
 
-    const violation = await Violation.findOne({
-      plotId: String(user.plotId),
-      areaId: String(user.areaId),
-      violationStatus: true,
-    });
+    let violation = null;
+
+    if (user.plotId && user.areaId) {
+      violation = await Violation.findOne({
+        plotId: String(user.plotId),
+        areaId: String(user.areaId),
+        violationStatus: true,
+      });
+    }
+
+    if (!violation && user.email) {
+      violation = await Violation.findOne({
+        user_mail: user.email,
+        violationStatus: true,
+      });
+    }
 
     if (!violation) {
       return NextResponse.json(
