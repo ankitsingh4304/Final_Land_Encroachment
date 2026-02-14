@@ -7,20 +7,20 @@ export default function Home() {
         <div className="space-y-6">
           <p className="inline-flex items-center gap-2 border border-blue-600 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-800">
             <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
-            Government-Citizen Land Allocation Platform
+            Government-Citizen Land Encroachment Detection System with Land Allocation Platform
           </p>
           <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl md:text-5xl">
-            Transparent, Fair & Data-Driven{" "}
+            
             <span className="text-blue-600">
-              Public Land
+              
             </span>{" "}
-            Allocation System
+            Industrial Land Encroachment Detection System with Land Allocation Platform
           </h1>
           <p className="max-w-xl text-sm leading-relaxed text-gray-700 sm:text-base">
-            Citizens can discover vacant government land, mark a precise
-            location on the map, and submit a fair price proposal. Government
-            administrators get a clean dashboard to review, approve or decline
-            every application with full traceability.
+           Authorities can detect encroachment on industrial land using satellite imagery and compare it with official maps.
+           They can also allocate land to citizens and track the allocation process.
+           Citizens can submit a fair price proposal and track the allocation process.  
+
           </p>
 
           <div className="flex flex-wrap gap-3 pt-2">
@@ -43,7 +43,7 @@ export default function Home() {
 
           <div className="grid gap-3 pt-4 text-xs text-gray-700 sm:grid-cols-3">
             <div className="border border-gray-300 bg-gray-50 p-3">
-              <p className="font-semibold text-blue-700">Map-based Selection</p>
+              <p className="font-semibold text-blue-700">Map-based Encroachment Detection</p>
               <p className="mt-1 text-xs text-gray-600">
                 Citizens pick an exact vacant parcel with interactive map
                 selection instead of ambiguous text-only forms.
@@ -51,7 +51,7 @@ export default function Home() {
             </div>
             <div className="border border-gray-300 bg-gray-50 p-3">
               <p className="font-semibold text-blue-700">
-                Dual Role Access
+                Hierarchical Access
               </p>
               <p className="mt-1 text-xs text-gray-600">
                 Dedicated views for admins and applicants with clear status and
@@ -59,7 +59,7 @@ export default function Home() {
               </p>
             </div>
             <div className="border border-gray-300 bg-gray-50 p-3">
-              <p className="font-semibold text-blue-700">Secure Platform</p>
+              <p className="font-semibold text-blue-700">Appeal System</p>
               <p className="mt-1 text-xs text-gray-600">
                 Built with modern technology for secure and efficient land allocation management.
               </p>
